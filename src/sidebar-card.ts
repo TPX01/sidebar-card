@@ -377,15 +377,12 @@ customElements.define('sidebar-card', SidebarCard);
 
 function createCSS(sidebarConfig: any, width: number) {
   let sidebarWidth = 25;
-  let contentWidth = 75;
   let sidebarResponsive = false;
   if(sidebarConfig.width) {
     if(typeof sidebarConfig.width == 'number') {
       sidebarWidth = sidebarConfig.width;
-      contentWidth = 100 - sidebarWidth;
     } else if(typeof sidebarConfig.width == 'object') {
       sidebarWidth = sidebarConfig.desktop;
-      contentWidth = 100 - sidebarWidth;
       sidebarResponsive = true;
     }
   }
