@@ -400,38 +400,38 @@ function createCSS(sidebarConfig: any, width: number) {
     if(width <= sidebarConfig.breakpoints.mobile) {
       css += `
       #customSidebar {
-        width:`+sidebarConfig.width.mobile+`%;
+        flex: 0 0 `+sidebarConfig.width.mobile+`;
       } 
       #contentContainer {
-        width:`+(100 - sidebarConfig.width.mobile)+`%;
+        flex: 1;
       }
     `;
     } else if (width <= sidebarConfig.breakpoints.tablet) {
         css += `
         #customSidebar {
-          width:`+sidebarConfig.width.tablet+`%;
+          flex: 0 0 `+sidebarConfig.width.tablet+`;
         } 
         #contentContainer {
-          width:`+(100 - sidebarConfig.width.tablet)+`%;
+          flex: 1;
         }
       `;
     } else {
         css += `
         #customSidebar {
-          width:`+sidebarConfig.width.desktop+`%;
+          flex: 0 0 `+sidebarConfig.width.desktop+`;
         } 
         #contentContainer {
-          width:`+(100 - sidebarConfig.width.desktop)+`%;
+          flex: 1;
         }
       `;
     }
   } else {
     css += `
       #customSidebar {
-        width:`+sidebarWidth+`%;
+        flex: 0 0 `+sidebarWidth+`%;
       } 
       #contentContainer {
-        width:`+contentWidth+`%;
+        flex: 1;
       }
     `;
   }
