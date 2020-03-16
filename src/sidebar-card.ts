@@ -397,7 +397,7 @@ function createCSS(sidebarConfig: any, width: number) {
     if(width <= sidebarConfig.breakpoints.mobile) {
       css += `
       #customSidebar {
-        flex: 0 0 `+sidebarConfig.width.mobile+`;
+        display: none;
       } 
       #contentContainer {
         flex: 1;
@@ -440,21 +440,30 @@ function update(appLayout, sidebarConfig) {
   const width = document.body.clientWidth;
   appLayout.shadowRoot.querySelector('#customSidebarStyle').textContent = createCSS(sidebarConfig, width);
   const header = root.querySelector('ch-header');
-  if(header) {
-    console.log('Header found!');
-  } else {
-    console.log('Header not found!')
-  }
-  if(sidebarConfig.hideTopMenu && sidebarConfig.hideTopMenu === true && sidebarConfig.showTopMenuOnMobile && sidebarConfig.showTopMenuOnMobile === true && width <= sidebarConfig.breakpoints.mobile) {
-    console.log('Action: Show header!');
-    if(header) {
-      header.style.display = 'flex';
+
+  if(sidebarConfig.hideTopMenu && sidebarConfig.hideTopMenu === true) {
+    if (sidebarConfig.showTopMenuOnMobile && sidebarConfig.showTopMenuOnMobile === true && width <= sidebarConfig.breakpoints.mobile) {
+      console.log('Action: Show header!');
+      if(header) {
+        //header.style.display = 'flex';
+      }
+    } else {
+      console.log('Action: Hide header!')
+      if(header) {
+        //header.style.display = 'none';
+      }
     }
   } else if(sidebarConfig.hideTopMenu && sidebarConfig.hideTopMenu === true) {
     console.log('Action: Hide header!')
     if(header) {
-      header.style.display = 'none';
+      //header.style.display = 'none';
     }
+  }
+
+  if(header) {
+    console.log('Header found!');
+  } else {
+    console.log('Header not found!')
   }
 }
 
@@ -475,11 +484,12 @@ async function buildSidebar() {
   let lovelace = getLovelace();
   if(lovelace.config.sidebar) {
     const sidebarConfig = Object.assign({}, lovelace.config.sidebar);
-    if(!sidebarConfig.width || (sidebarConfig.width && typeof sidebarConfig.width == 'number' && sidebarConfig.width > 0 && sidebarConfig.width < 100 ) || (sidebarConfig.width && typeof sidebarConfig.width == 'object')) {
+    if(!sidebarConfig.width || (sidebarConfig.width && typeof sidebarConfig.width == 'number' && sidebarConfig.width > 0) || (sidebarConfig.width && typeof sidebarConfig.width == 'object')) {
       let root: any = getRoot();
+      const header = root.querySelector('ch-header');
       
-      if(sidebarConfig.hideTopMenu && sidebarConfig.hideTopMenu === true) {
-        root.querySelector('ch-header').style.display = 'none';
+      if(sidebarConfig.hideTopMenu && sidebarConfig.hideTopMenu === true && header) {
+        header.style.display = 'none';
       }
 
       if(!sidebarConfig.breakpoints) {
