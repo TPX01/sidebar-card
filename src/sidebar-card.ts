@@ -1,15 +1,8 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement,html, css } from 'lit-element';
 import { moreInfo } from "card-tools/src/more-info";
-// import { createCard } from "card-tools/src/lovelace-element";
 import { hass, provideHass } from "card-tools/src/hass";
-import {subscribeRenderTemplate} from "card-tools/src/templates";
-import {
-  toggleEntity,
-  navigate,
-  forwardHaptic,
-  getLovelace,
-  getRoot
-} from 'custom-card-helpers';
+import { subscribeRenderTemplate } from "card-tools/src/templates";
+import { toggleEntity, navigate, forwardHaptic, getLovelace, getRoot } from 'custom-card-helpers';
 
 class SidebarCard extends LitElement {
   config: any;
@@ -212,14 +205,6 @@ class SidebarCard extends LitElement {
           height: 100%;
           display: flex;
           flex-direction: column;
-          // --face-color: #FFF;
-          // --face-border-color: #FFF;
-          // --clock-hands-color: #000;
-          // --clock-seconds-hand-color: #FF4B3E;
-          // --clock-middle-background: #FFF;
-          // --clock-middle-border: #000;
-          // --sidebar-background: #FFF;
-          // --sidebar-text-color: #000;
           background-color: var(--sidebar-background, #FFF);
         }
         .sidebar-inner {
@@ -392,6 +377,12 @@ function createCSS(sidebarConfig: any, width: number) {
       display:flex;
       flex-direction:row;
     }
+
+    .siderbarmenu ha-icon {
+      width:30px;
+      height:30px;
+      pointer-events: none;
+    }
   `;
   if(sidebarResponsive) {
     if(width <= sidebarConfig.breakpoints.mobile) {
@@ -436,35 +427,8 @@ function createCSS(sidebarConfig: any, width: number) {
 }
 
 function update(appLayout, sidebarConfig) {
-  let root: any = getRoot();
   const width = document.body.clientWidth;
   appLayout.shadowRoot.querySelector('#customSidebarStyle').textContent = createCSS(sidebarConfig, width);
-  const header = root.querySelector('ch-header');
-
-  if(sidebarConfig.hideTopMenu && sidebarConfig.hideTopMenu === true) {
-    if (sidebarConfig.showTopMenuOnMobile && sidebarConfig.showTopMenuOnMobile === true && width <= sidebarConfig.breakpoints.mobile) {
-      console.log('Action: Show header!');
-      if(header) {
-        //header.style.display = 'flex';
-      }
-    } else {
-      console.log('Action: Hide header!')
-      if(header) {
-        //header.style.display = 'none';
-      }
-    }
-  } else if(sidebarConfig.hideTopMenu && sidebarConfig.hideTopMenu === true) {
-    console.log('Action: Hide header!')
-    if(header) {
-      //header.style.display = 'none';
-    }
-  }
-
-  if(header) {
-    console.log('Header found!');
-  } else {
-    console.log('Header not found!')
-  }
 }
 
 function subscribeEvens(appLayout: any, sidebarConfig) {
@@ -486,11 +450,6 @@ async function buildSidebar() {
     const sidebarConfig = Object.assign({}, lovelace.config.sidebar);
     if(!sidebarConfig.width || (sidebarConfig.width && typeof sidebarConfig.width == 'number' && sidebarConfig.width > 0) || (sidebarConfig.width && typeof sidebarConfig.width == 'object')) {
       let root: any = getRoot();
-      const header = root.querySelector('ch-header');
-      
-      if(sidebarConfig.hideTopMenu && sidebarConfig.hideTopMenu === true && header) {
-        header.style.display = 'none';
-      }
 
       if(!sidebarConfig.breakpoints) {
         sidebarConfig.breakpoints = {
